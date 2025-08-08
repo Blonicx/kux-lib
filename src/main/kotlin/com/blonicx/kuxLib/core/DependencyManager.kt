@@ -31,7 +31,7 @@ internal class DependencyManager(private val dataFolder: File) {
         return 0
     }
 
-    private fun loadAllDependencies(): List<Dependency> {
+    fun loadAllDependencies(): List<Dependency> {
         val depsMap = mutableMapOf<String, MutableList<Dependency>>()
         val pluginsFolder: File = Bukkit.getPluginManager().getPlugin("kux-lib")?.dataFolder?.parentFile
             ?: return emptyList()
