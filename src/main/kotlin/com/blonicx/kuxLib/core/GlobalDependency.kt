@@ -1,6 +1,5 @@
 package com.blonicx.kuxLib.core
 
-import com.blonicx.kuxLib.core.DependencyManager
 import com.google.gson.Gson
 import org.bukkit.Bukkit
 import java.io.File

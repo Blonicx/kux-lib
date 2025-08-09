@@ -7,7 +7,7 @@ import io.papermc.paper.command.brigadier.CommandSourceStack
 import io.papermc.paper.command.brigadier.Commands
 import com.mojang.brigadier.Command
 
-object KuxCommand {
+internal object KuxCommand {
     val root: LiteralArgumentBuilder<CommandSourceStack> = Commands.literal("kux-lib")
 
     fun register() {

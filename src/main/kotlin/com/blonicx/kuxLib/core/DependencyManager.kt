@@ -32,21 +32,21 @@ internal class DependencyManager(private val dataFolder: File) {
     }
 
     fun loadAllDependencies(): List<Dependency> {
-        val depsMap = mutableMapOf<String, MutableList<Dependency>>()
+        val dependenciesMap = mutableMapOf<String, MutableList<Dependency>>()
         val pluginsFolder: File = Bukkit.getPluginManager().getPlugin("kux-lib")?.dataFolder?.parentFile
             ?: return emptyList()
 
         pluginsFolder.listFiles()?.filter { it.isDirectory }?.forEach { pluginDir ->
             val depFile = File(pluginDir, "dependency.json")
             if (depFile.exists()) {
-                val deps: Array<Dependency> = gson.fromJson(depFile.readText(), Array<Dependency>::class.java)
-                deps.forEach { dep ->
-                    depsMap.computeIfAbsent(dep.slug) { mutableListOf() }.add(dep)
+                val dependencies: Array<Dependency> = gson.fromJson(depFile.readText(), Array<Dependency>::class.java)
+                dependencies.forEach { dependency ->
+                    dependenciesMap.computeIfAbsent(dependency.slug) { mutableListOf() }.add(dependency)
                 }
             }
         }
 
-        return depsMap.map { (slug, versions) ->
+        return dependenciesMap.map { (slug, versions) ->
             val highest = versions
                 .filter { it.version != null }
                 .maxWithOrNull { a, b ->
@@ -73,13 +73,16 @@ internal class DependencyManager(private val dataFolder: File) {
         val pluginsFolder: File = Bukkit.getPluginManager().getPlugin("kux-lib")?.dataFolder?.parentFile
             ?: throw Exception("Plugins folder not found")
 
+        // Get the Minecraft version from the server //
         val rawVersion = Bukkit.getVersion()
         val regex = """MC: (\d+\.\d+)""".toRegex()
         val gameVersion = regex.find(rawVersion)?.groupValues?.get(1) ?: "1.21"
 
+        // Get the Modrinth API URL for the version //
         val versionsUrl = "https://api.modrinth.com/v2/project/$slug/version"
         val request = Request.Builder().url(versionsUrl).build()
 
+        // Make the request to fetch versions //
         httpClient.newCall(request).execute().use { response ->
             if (!response.isSuccessful) throw Exception("Failed to fetch versions: ${response.code}")
 
@@ -111,7 +114,6 @@ internal class DependencyManager(private val dataFolder: File) {
             }
 
             val downloadUrl = fileObj["url"].asString
-
 
             val downloadRequest = Request.Builder().url(downloadUrl).build()
             httpClient.newCall(downloadRequest).execute().use { downloadResponse ->
