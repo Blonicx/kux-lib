@@ -20,14 +20,13 @@ object Dependencies {
      * @return List<String> The list of dependencies loaded by the plugin.
      * @throws IllegalStateException If the dependencies file doesn't exist.
      */
-    public fun getAllDependencies(): List<String> {
+    fun getAllDependencies(): List<String> {
         if (!file.exists()) {
             throw IllegalStateException("Dependencies file does not exist.")
         }
 
         val jsonContent: String = file.readText()
-        val dependencies: List<String> = gson.fromJson(jsonContent, Array<String>::class.java).toList()
-
-        return dependencies
+        val dependencies: Array<Dependency> = gson.fromJson(jsonContent, Array<Dependency>::class.java)
+        return dependencies.map { it.slug }
     }
 }

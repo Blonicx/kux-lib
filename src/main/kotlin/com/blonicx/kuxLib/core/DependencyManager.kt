@@ -53,7 +53,7 @@ internal class DependencyManager(private val dataFolder: File) {
                     compareVersions(parseVersion(a.version!!), parseVersion(b.version!!))
                 } ?: versions.first()
 
-            Dependency(slug, highest.version)
+            Dependency(slug, highest.version, true)
         }
     }
 
@@ -69,7 +69,7 @@ internal class DependencyManager(private val dataFolder: File) {
         }
     }
 
-    private fun downloadPlugin(slug: String, exactVersion: String? = null) {
+    fun downloadPlugin(slug: String, exactVersion: String? = null) {
         val pluginsFolder: File = Bukkit.getPluginManager().getPlugin("kux-lib")?.dataFolder?.parentFile
             ?: throw Exception("Plugins folder not found")
 
