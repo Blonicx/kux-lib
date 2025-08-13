@@ -10,7 +10,14 @@ import java.io.File
 import java.io.FileOutputStream
 import java.util.concurrent.CopyOnWriteArraySet
 
-internal class DependencyManager(private val dataFolder: File) {
+internal class DependencyManager(private val dataFolder: File? = null) {
+    init {
+        if (dataFolder != null) {
+            println("Data folder: ${dataFolder.absolutePath}")
+        } else {
+            println("No data folder provided")
+        }
+    }
 
     private val httpClient = OkHttpClient()
     private val gson = Gson()

@@ -7,8 +7,9 @@
 
 ## What is kux-lib?
 
-**kux** stands for *Kotlin-Updating-X*.  
+**kux** stands for **Kotlin-Updating-X**.  
 It is a library designed to simplify downloading Minecraft library dependencies for Paper plugins automatically at runtime.
+You can download it from [Modrinth](https://modrinth.com/plugin/kux-lib)
 
 Currently, it supports downloading dependencies from:
 - [Modrinth](https://modrinth.com)
@@ -16,6 +17,7 @@ Currently, it supports downloading dependencies from:
 ## How to use kux-lib
 
 ### For Users
+**There is a chance it will be installed by another plugin that uses the lib!**
 
 Download the latest version of **kux-lib** and place it in your server's `plugins` folder. It will handle downloading required dependencies for your Paper plugins automatically.
 
