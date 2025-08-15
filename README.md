@@ -2,8 +2,7 @@
 
 [![GitHub stars](https://img.shields.io/github/stars/Blonicx/kux-lib?style=social)](https://github.com/Blonicx/kux-lib/stargazers)  
 [![GitHub forks](https://img.shields.io/github/forks/Blonicx/kux-lib?style=social)](https://github.com/Blonicx/kux-lib/network)  
-[![GitHub issues](https://img.shields.io/github/issues/Blonicx/kux-lib)](https://github.com/Blonicx/kux-lib/issues)  
-[![License](https://img.shields.io/github/license/Blonicx/kux-lib)](./LICENSE.txt)
+[![GitHub issues](https://img.shields.io/github/issues/Blonicx/kux-lib)](https://github.com/Blonicx/kux-lib/issues)
 
 ## What is kux-lib?
 

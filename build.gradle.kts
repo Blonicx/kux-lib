@@ -1,14 +1,24 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.gradle.jvm.tasks.Jar
 
+val signingKey: String? = findProperty("signing.key") as String?
+val signingPassword: String? = findProperty("signing.password") as String?
+val signingKeyId: String? = findProperty("signing.keyId") as String?
+
 plugins {
     kotlin("jvm") version "2.0.0"
     id("com.gradleup.shadow") version "8.3.0"
     id("xyz.jpenilla.run-paper") version "2.3.1"
+    id("com.vanniktech.maven.publish") version "0.34.0"
 }
 
-group = "com.blonicx"
-version = "1.0.0"
+group = "io.github.blonicx"
+version = "1.1.0"
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
 
 repositories {
     mavenCentral()
@@ -67,6 +77,35 @@ tasks {
         filteringCharset = "UTF-8"
         filesMatching("paper-plugin.yml") {
             expand(props)
+        }
+    }
+}
+
+mavenPublishing {
+    coordinates(group.toString(), "kux-lib", version.toString())
+
+    pom {
+        name.set("kux-lib")
+        description.set("A Minecraft Paper plugin library that simplifies dependency management ")
+        url.set("https://github.com/Blonicx/kux-lib")
+
+        licenses {
+            license {
+                name.set("MIT License")
+                url.set("https://opensource.org/license/mit/")
+            }
+        }
+        developers {
+            developer {
+                id.set("blonicx")
+                name.set("Blonicx")
+                email.set("")
+            }
+        }
+        scm {
+            connection.set("scm:git:git://github.com/Blonicx/kux-lib.git")
+            developerConnection.set("scm:git:ssh://github.com/Blonicx/kux-lib.git")
+            url.set("https://github.com/Blonicx/kux-lib")
         }
     }
 }
