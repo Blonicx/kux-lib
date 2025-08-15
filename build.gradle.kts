@@ -1,10 +1,6 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.gradle.jvm.tasks.Jar
 
-val signingKey: String? = findProperty("signing.key") as String?
-val signingPassword: String? = findProperty("signing.password") as String?
-val signingKeyId: String? = findProperty("signing.keyId") as String?
-
 plugins {
     kotlin("jvm") version "2.0.0"
     id("com.gradleup.shadow") version "8.3.0"
@@ -34,43 +30,29 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:2.0.0")
 }
 
-tasks {
-    runServer {
-        // Configure the Minecraft version for our task.
-        // This is the only required configuration besides applying the plugin.
-        // Your plugin's jar (or shadowJar if present) will be used automatically.
-        minecraftVersion("1.21")
-    }
-}
-
 val targetJavaVersion = 21
 kotlin {
     jvmToolchain(targetJavaVersion)
 }
 
 tasks {
-    // Customize the fat jar
-    named<ShadowJar>("shadowJar") {
-        archiveClassifier.set("") // no "-all"
-        mergeServiceFiles() // optional but good practice
-    }
-
-    // Disable default plain jar
-    named<Jar>("jar") {
-        enabled = false
-    }
-
-    // Ensure build depends on fat jar
-    build {
-        dependsOn(shadowJar)
-    }
-
-    // Configure run-paper plugin
     runServer {
         minecraftVersion("1.21")
     }
 
-    // Replace version placeholders in plugin config
+    named<ShadowJar>("shadowJar") {
+        archiveClassifier.set("") // no "-all"
+        mergeServiceFiles()
+    }
+
+    named<Jar>("jar") {
+        enabled = false
+    }
+
+    build {
+        dependsOn(shadowJar)
+    }
+
     processResources {
         val props = mapOf("version" to version)
         inputs.properties(props)
@@ -81,16 +63,12 @@ tasks {
     }
 }
 
-tasks.named("generateMetadataFileForMavenPublication") {
-    dependsOn(tasks.named("plainJavadocJar"))
-}
-
 mavenPublishing {
     coordinates(group.toString(), "kux-lib", version.toString())
 
     pom {
         name.set("kux-lib")
-        description.set("A Minecraft Paper plugin library that simplifies dependency management ")
+        description.set("A Minecraft Paper plugin library that simplifies dependency management")
         url.set("https://github.com/Blonicx/kux-lib")
 
         licenses {
@@ -111,5 +89,12 @@ mavenPublishing {
             developerConnection.set("scm:git:ssh://github.com/Blonicx/kux-lib.git")
             url.set("https://github.com/Blonicx/kux-lib")
         }
+    }
+}
+
+// Optional: attach Javadoc & sources to Maven publication
+afterEvaluate {
+    tasks.named("publishToMavenLocal") {
+        dependsOn(tasks.named("javadocJar"), tasks.named("sourcesJar"))
     }
 }
