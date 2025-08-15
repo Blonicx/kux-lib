@@ -81,6 +81,10 @@ tasks {
     }
 }
 
+tasks.named("generateMetadataFileForMavenPublication") {
+    dependsOn(tasks.named("plainJavadocJar"))
+}
+
 mavenPublishing {
     coordinates(group.toString(), "kux-lib", version.toString())
 
