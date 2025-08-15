@@ -94,7 +94,7 @@ mavenPublishing {
 
 // Optional: attach Javadoc & sources to Maven publication
 afterEvaluate {
-    tasks.named("publishToMavenLocal") {
-        dependsOn(tasks.named("javadocJar"), tasks.named("sourcesJar"))
+    tasks.named("generateMetadataFileForMavenPublication") {
+        dependsOn(tasks.named("plainJavadocJar"))
     }
 }
