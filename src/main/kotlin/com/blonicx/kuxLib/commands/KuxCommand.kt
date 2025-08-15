@@ -40,6 +40,12 @@ internal object KuxCommand {
                     Commands.argument("slug", StringArgumentType.string())
                         .executes { ctx ->
                             val source = ctx.source
+
+                            if (!source.sender.hasPermission("kuxlib.admin")) {
+                                source.sender.sendMessage("You do not have permission to use this command.")
+                                return@executes Command.SINGLE_SUCCESS
+                            }
+
                             val slug = StringArgumentType.getString(ctx, "slug")
                             val plugin: Plugin = Bukkit.getPluginManager().getPlugin("kux-lib")
                                 ?: run {

@@ -5,3 +5,7 @@ version: '1.1.0'
 main: com.blonicx.kuxLib.KuxLib
 api-version: '1.21'
 load: STARTUP
+permissions:
+  kuxlib.admin:
+    description: Allows the user to use admin commands like /kuxlib install.
+    default: op
